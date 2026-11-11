@@ -1,11 +1,11 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Starter code for the Online Store workshop.
- * Learners will complete the TODO sections to make the program work.
  * <p>
  * What is already done for you: the two lists, the Home Screen loop and
  * the method headers. Each TODO says what that method has to do.
@@ -63,6 +63,25 @@ public class Store {
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
         // TODO: skip the header line, then read each line, split on "|",
         //       create a Product object, and add it to the inventory list
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String line;
+
+            reader.readLine();
+
+            while ((line = reader.readLine()) != null) {
+                String[] splitLine = line.split("\\|");
+                String sku = splitLine[0];
+                String productName = splitLine[1];
+                double price = Double.parseDouble(splitLine[2]);
+                String department = splitLine[3];
+
+                Product product = new Product(sku, productName, price, department);
+                inventory.add(product);
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong!");;
+        }
     }
 
     /**
