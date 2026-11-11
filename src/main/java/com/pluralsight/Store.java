@@ -52,17 +52,7 @@ public class Store {
         scanner.close();
     }
 
-    /**
-     * Reads product data from a file and populates the inventory list.
-     * File format (pipe-delimited), the first line is a header row:
-     * SKU|Product Name|Price|Department
-     * <p>
-     * Example line:
-     * AV1051|JBL Bluetooth Speaker|89.95|Audio Video
-     */
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
-        // TODO: skip the header line, then read each line, split on "|",
-        //       create a Product object, and add it to the inventory list
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             String line;
@@ -79,6 +69,8 @@ public class Store {
                 Product product = new Product(sku, productName, price, department);
                 inventory.add(product);
             }
+
+            reader.close();
         } catch (Exception e) {
             System.out.println("Something went wrong!");;
         }
@@ -93,6 +85,28 @@ public class Store {
                                        Scanner scanner) {
         // TODO: show each product (id, name, price),
         //       prompt for an id, find that product, add to cart
+        System.out.printf("%8s | %25s | %8s%n", "ID", "Product Name", "Price");
+        System.out.println("=================================================================");
+
+        for (Product product : inventory) {
+            System.out.printf("%8s | %25s | %8.2f | %25s%n",
+                    product.getSku(),
+                    product.getProductName(),
+                    product.getPrice(),
+                    product.getDepartment()
+            );
+        }
+
+        System.out.println("Enter ID of product to add to cart: ");
+        String id = scanner.nextLine();
+
+        for (Product product : inventory) {
+            if (product.getSku().equalsIgnoreCase(id)) {
+                cart.add(product);
+                System.out.println(product.getProductName() + " has been added to your cart.");
+            }
+        }
+
     }
 
     /**
