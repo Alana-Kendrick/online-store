@@ -12,4 +12,20 @@ public class Product {
         this.price = price;
         this.department = department;
     }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
 }
